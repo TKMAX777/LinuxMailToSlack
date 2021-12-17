@@ -3,7 +3,7 @@
 ## Install
 
 ```sh
-go install github.com/TKMAX777/MailToSlack
+go install github.com/TKMAX777/MailToSlack@latest
 ```
 
 ## Configuration

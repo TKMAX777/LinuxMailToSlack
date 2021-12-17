@@ -28,7 +28,7 @@ MessageLoop:
 	for i, s := range messages {
 		attrs := strings.Split(s, ": ")
 
-		switch attrs[0] {
+		switch strings.TrimSpace(attrs[0]) {
 		case "Delivery-date":
 			t, err := time.Parse(time.RFC1123Z, attrs[1])
 			if err != nil {

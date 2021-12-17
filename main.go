@@ -21,6 +21,8 @@ func main() {
 	b := new(bytes.Buffer)
 	io.Copy(b, os.Stdin)
 
+	fmt.Printf("%s", b)
+
 	var mail = NewMailHandler(b.String())
 	mail.Parse()
 

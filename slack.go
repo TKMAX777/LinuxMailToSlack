@@ -60,7 +60,8 @@ func (s SlackHandler) PostMessage(postMessage SlackPostMessage) (err error) {
 		return
 	}
 
-	req.Header.Add("Authorization", "Bearer "+s.token)
+	req.Header.Set("Authorization", "Bearer "+s.token)
+	req.Header.Add("Content-Type", "application/json")
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
@@ -73,7 +74,7 @@ func (s SlackHandler) PostMessage(postMessage SlackPostMessage) (err error) {
 		return
 	}
 
-	if response.OK {
+	if !response.OK {
 		return errors.New(response.Error)
 	}
 

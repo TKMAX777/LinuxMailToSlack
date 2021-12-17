@@ -53,9 +53,15 @@ func main() {
 		hostname = "UnknownServer"
 	}
 
-	Slack.PostMessage(SlackPostMessage{
-		Channel:  channel,
-		Blocks:   blocks,
-		UserName: fmt.Sprintf("[%s]Mail[%s]", hostname, mail.From),
+	err = Slack.PostMessage(SlackPostMessage{
+		AsUser:    false,
+		IconEmoji: ":mailbox:",
+		Channel:   channel,
+		Blocks:    blocks,
+		UserName:  fmt.Sprintf("[%s]Mail[%s]", hostname, mail.From),
 	})
+
+	if err != nil {
+		fmt.Println(err)
+	}
 }

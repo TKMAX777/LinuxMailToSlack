@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"net/http"
 )
 
@@ -37,6 +38,11 @@ type SlackBlockText struct {
 	Emoji bool   `json:"emoji,omitempty"`
 }
 
+type SlackResponse struct {
+	OK    string `json:"ok"`
+	Error string `json:"error"`
+}
+
 func NewSlackHandler(token string) *SlackHandler {
 	return &SlackHandler{
 		token: token,
@@ -52,9 +58,19 @@ func (s SlackHandler) PostMessage(postMessage SlackPostMessage) (err error) {
 	if err != nil {
 		return
 	}
-	_, err = http.Post(SlackApiURI, "application/json", buf)
+	resp, err := http.Post(SlackApiURI, "application/json", buf)
 	if err != nil {
 		return
+	}
+
+	var response SlackResponse
+	err = json.NewDecoder(resp.Body).Decode(&response)
+	if err != nil {
+		return
+	}
+
+	if response.OK != "ok" {
+		return errors.New(response.Error)
 	}
 
 	return nil

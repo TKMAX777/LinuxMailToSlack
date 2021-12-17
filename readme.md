@@ -1,4 +1,4 @@
-# MailToSlack
+# LinuxMailToSlack
 
 ## Install
 

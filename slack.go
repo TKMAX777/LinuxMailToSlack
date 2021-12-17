@@ -7,14 +7,13 @@ import (
 	"net/http"
 )
 
-const SlackApiURI = "https://slack.com/api/"
+const SlackApiURI = "https://slack.com/api"
 
 type SlackHandler struct {
 	token string
 }
 
 type SlackPostMessage struct {
-	Token       string            `json:"token"`
 	Channel     string            `json:"channel"`
 	Attachments []SlackAttachment `json:"attachments,omitempty"`
 	Blocks      []SlackBlock      `json:"blocks,omitempty"`
@@ -50,15 +49,20 @@ func NewSlackHandler(token string) *SlackHandler {
 }
 
 func (s SlackHandler) PostMessage(postMessage SlackPostMessage) (err error) {
-	if postMessage.Token == "" {
-		postMessage.Token = s.token
-	}
 	var buf = new(bytes.Buffer)
 	err = json.NewEncoder(buf).Encode(postMessage)
 	if err != nil {
 		return
 	}
-	resp, err := http.Post(SlackApiURI, "application/json", buf)
+
+	req, err := http.NewRequest("POST", SlackApiURI+"/chat.postMessage", buf)
+	if err != nil {
+		return
+	}
+
+	req.Header.Add("Authorization", "Bearer "+s.token)
+
+	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return
 	}

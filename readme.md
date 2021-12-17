@@ -4,6 +4,7 @@
 
 ```sh
 go install github.com/TKMAX777/MailToSlack@latest
+sudo apt install postfix
 ```
 
 ## Configuration

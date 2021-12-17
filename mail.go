@@ -47,8 +47,8 @@ MessageLoop:
 			m.ContentType = attrs[1]
 		case "Content-Transfer-Encoding":
 			m.ContentTransferEncoding = attrs[1]
-			m.Message = strings.Join(messages[i+1:], "\n")
 		case "":
+			m.Message = strings.Join(messages[i+1:], "\n")
 			break MessageLoop
 		}
 	}

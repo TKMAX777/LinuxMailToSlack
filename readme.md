@@ -1,4 +1,5 @@
 # MailToSlack
+
 ## Install
 
 ```sh
@@ -22,5 +23,34 @@ SLACK_ICON_EMOJI=":+1:"
 USERNAME:   "|/path/to/binary"
 ```
 
+## Example
+### Cron logging
 
+- Make shell script to excute binary
+
+```sh
+# /usr/local/MailToSlack/start.sh
+
+#!/usr/bin/bash
+export SLACK_BOT_TOKEN="xoxb-***"
+export SLACK_ICON_EMOJI=":mailbox:"
+export SLACK_CHANNEL="C******"
+
+/usr/local/MailToSlack/MailToSlack
+
+```
+
+- Change aliases file
+
+```
+# /etc/aliases
+cronuser: root, "|/usr/local/MailToSlack/start.sh"
+```
+
+- Change cron settings
+
+```
+# crontab
+MAILTO=cronuser
+```
 

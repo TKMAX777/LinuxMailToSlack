@@ -18,7 +18,6 @@ type SlackPostMessage struct {
 	Attachments []SlackAttachment `json:"attachments,omitempty"`
 	Blocks      []SlackBlock      `json:"blocks,omitempty"`
 	UserName    string            `json:"username"`
-	AsUser      bool              `json:"as_user"`
 	IconEmoji   string            `json:"icon_emoji"`
 }
 

@@ -56,8 +56,7 @@ func main() {
 	}
 
 	err = Slack.PostMessage(SlackPostMessage{
-		AsUser:    false,
-		IconEmoji: ":mailbox:",
+		IconEmoji: os.Getenv("SLACK_ICON_EMOJI"),
 		Channel:   channel,
 		Blocks:    blocks,
 		UserName:  fmt.Sprintf("[%s]Mail[%s]", strings.ToUpper(hostname), mail.From),

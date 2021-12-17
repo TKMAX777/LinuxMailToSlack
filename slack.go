@@ -38,7 +38,7 @@ type SlackBlockText struct {
 }
 
 type SlackResponse struct {
-	OK    string `json:"ok"`
+	OK    bool   `json:"ok"`
 	Error string `json:"error"`
 }
 
@@ -73,7 +73,7 @@ func (s SlackHandler) PostMessage(postMessage SlackPostMessage) (err error) {
 		return
 	}
 
-	if response.OK != "ok" {
+	if response.OK {
 		return errors.New(response.Error)
 	}
 

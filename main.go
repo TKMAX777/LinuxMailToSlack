@@ -32,13 +32,15 @@ func main() {
 	header.Type = "header"
 	header.Text = blockText
 
+	blockText = SlackBlockText{}
+
 	var text string
 	for _, t := range strings.Split(mail.Message, "\n") {
 		text += "> " + t + "\n"
 	}
 	text = strings.TrimSuffix(text, "\n")
 
-	blockText.Type = "plain_text"
+	blockText.Type = "mrkdwn"
 	blockText.Text = text
 
 	var section SlackBlock
@@ -58,7 +60,7 @@ func main() {
 		IconEmoji: ":mailbox:",
 		Channel:   channel,
 		Blocks:    blocks,
-		UserName:  fmt.Sprintf("[%s]Mail[%s]", hostname, mail.From),
+		UserName:  fmt.Sprintf("[%s]Mail[%s]", strings.ToUpper(hostname), mail.From),
 	})
 
 	if err != nil {

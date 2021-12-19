@@ -1,4 +1,4 @@
-package main
+package mail_to_slack
 
 import (
 	"strings"

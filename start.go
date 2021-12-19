@@ -1,4 +1,4 @@
-package main
+package mail_to_slack
 
 import (
 	"bytes"
@@ -15,7 +15,7 @@ func init() {
 	Slack = NewSlackHandler(token)
 }
 
-func main() {
+func Start() {
 	var channel = os.Getenv("SLACK_CHANNEL")
 
 	b := new(bytes.Buffer)

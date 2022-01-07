@@ -16,6 +16,7 @@ func init() {
 }
 
 func Start() {
+	const maxLines = 30
 	var channel = os.Getenv("SLACK_CHANNEL")
 
 	b := new(bytes.Buffer)
@@ -35,22 +36,31 @@ func Start() {
 	header.Text = blockText
 
 	blockText = SlackBlockText{}
-
-	var text string
-	for _, t := range strings.Split(mail.Message, "\n") {
-		text += "> " + t + "\n"
-	}
-	text = strings.TrimSuffix(text, "\n")
-
 	blockText.Type = "mrkdwn"
-	blockText.Text = text
 
+	var sections = []SlackBlock{}
 	var section SlackBlock
 	section.Type = "section"
+
+	for i, t := range strings.Split(mail.Message, "\n") {
+		blockText.Text += "> " + t + "\n"
+
+		if i > 0 && i%maxLines == 0 {
+			blockText.Text = strings.TrimSuffix(blockText.Text, "\n")
+			section.Text = blockText
+
+			sections = append(sections, section)
+
+			blockText.Text = ""
+		}
+	}
+
+	blockText.Text = strings.TrimSuffix(blockText.Text, "\n")
 	section.Text = blockText
 
-	var blocks = []SlackBlock{}
-	blocks = append(blocks, header, section)
+	sections = append(sections, section)
+
+	var blocks = append([]SlackBlock{header}, sections...)
 
 	hostname, err := os.Hostname()
 	if err != nil {
